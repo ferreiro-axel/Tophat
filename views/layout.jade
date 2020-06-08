@@ -1,0 +1,39 @@
+//- includes/menu-bar.jade
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(name="viewport",content="width=device-width,initial-scale=1")
+    script(src="https://kit.fontawesome.com/13933a78ac.js" crossorigin="anonymous")
+    block scripts
+  body
+    .wrapper
+      header
+        .side-menu
+          span
+            i(class="fas fa-bars")
+          nav(id="menu") 
+            ul 
+              li 
+                a(href='/cipher-message') Cipher message
+              li
+                a(href='/image-message') Image message
+              li
+                a(href='/nico-message') Nico message
+        nav.in-line-menu 
+            ul 
+              li 
+                a(href='/cipher-message') Cipher message
+              li
+                a(href='/image-message') Image message
+              li
+                a(href='/nico-message') Nico message
+        h1 Top hat
+      main
+        section#centralContainer
+          h2 #{title}
+          p #{description}
+          block content
+      footer
+        p v0.1

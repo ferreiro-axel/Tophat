@@ -1,0 +1,7 @@
+extends layout
+block content
+      form(action='/cipher-message' method='post' autocomplete='off')
+          input(align='center' class="input" id='myMessage' type='text' name='myMessage' placeholder='Write a message!')
+          #formButtons
+          button(id='cipher' name='cipher') Cipher
+          button(id='decipher' name='decipher') Decipher

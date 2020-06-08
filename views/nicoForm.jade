@@ -1,0 +1,8 @@
+extends layout
+block content
+      form(action='/nico-message' method='post' autocomplete='off')
+          input(align='center' class="input" id='myMessage' type='text' name='myMessage' placeholder='Write a message!')
+          input(align='center' class="input" id='myKey' type='text' name='myKey' placeholder='Write your key!')
+          #formButtons
+          button(id='nico' name='nico') Nico
+          button(id='denico' name='denico') Denico

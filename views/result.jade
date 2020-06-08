@@ -1,0 +1,17 @@
+extends layout
+block scripts
+  if typeOfRes=='text-cipher'
+      script(src='/p5/p5.js')
+      script(src='/p5/result.js')
+  else
+block content
+      p#Res #{result}
+      if typeOfRes=='text-cipher'
+        #designContainer
+          #canv.canv
+      else 
+        if typeOfRes=='img-cipher'
+          a(download="logo.png" href="/images/#{imageName}") Download
+      .signature
+        p(id="magician-sign") Mr.Mage
+      

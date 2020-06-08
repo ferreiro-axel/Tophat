@@ -1,0 +1,10 @@
+extends layout
+block content
+      form(action='/image-message' method='post' enctype="multipart/form-data")
+          input(id='image' type='file' name='image' placeholder='select a file!' style='display:none')
+          label(for='image' class="input") Select a file!
+          input(id='message' class="input" type="text" name="message" placeholder='Write your message here')
+          #formButtons
+            button(id='saveOnImg' name='saveOnImg') Save on image
+            button(id='readFromImg' name='readFromImg') Read from image
+      
