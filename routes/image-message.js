@@ -20,7 +20,6 @@ router.post('/',upload.single('image'),function(req,res,next){
       }else{
         messageFile=req.file;
         fileType=req.file.mimetype.match(/\/.*/g)[0];
-        console.log(fileType)
         switch(fileType){
           case '/png':
           case '/jpeg':
@@ -36,14 +35,12 @@ router.post('/',upload.single('image'),function(req,res,next){
           let bodyCopy=new Object();
           Object.assign(bodyCopy,req.body);    
           if('saveOnImg' in bodyCopy){
-                console.log('has save on img!')
             if(req.body.message){
               writeImage2(messageFile.filename,req.body.message,res);
             }else{
               next(createError(400,'Invalid input'));
             }
           }else{
-            console.log('start read of message!')
             readImage2(messageFile.filename,res)
           }
         }
@@ -55,7 +52,6 @@ router.post('/',upload.single('image'),function(req,res,next){
   
   function writeImage2(imgName,rawMessage,res){
     let message=turnMsgToBin(rawMessage).split('');
-    console.log(message);
     jimp.read('tmp/'+imgName,(err,img)=>{
       if(err) throw err;
       img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(x, y, idx) {
@@ -75,7 +71,6 @@ router.post('/',upload.single('image'),function(req,res,next){
   
   function turnMsgToBin(rawMessage){
     let message=rawMessage+'-tophatend';
-      console.log("this is ready!")
       message=message.split('');
       message=message.map(i=>{let bitChain =i.charCodeAt(0).toString(2);
         let ceros=7-bitChain.length;
@@ -93,7 +88,6 @@ router.post('/',upload.single('image'),function(req,res,next){
       img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(x, y, idx) {
         if(message.includes('-tophatend')&&!messageFound){
           let resMessage=message.replace('-tophatend','')
-          console.log(resMessage);
           res.render('result',{title: 'Image message',description:'This is the secret that was inside your image:',result:resMessage,typeOfRes:'img'});
           messageFound=true;
         }

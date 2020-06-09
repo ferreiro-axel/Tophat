@@ -16,8 +16,6 @@ router.post('/',function(req,res,next){
         }else{
             myNicoResult=deNico(key,message);
         }
-        console.log(req.body);
-        console.log(myNicoResult+'.');
         res.render('result',{ title: 'Nico message',typeOfRes,description:'Here is your message:',result:`"${myNicoResult}".`})
     }
 })
