@@ -39,6 +39,8 @@ router.post('/',upload.single('image'),function(req,res,next){
                 console.log('has save on img!')
             if(req.body.message){
               writeImage2(messageFile.filename,req.body.message,res);
+            }else{
+              next(createError(400,'Invalid input'));
             }
           }else{
             console.log('start read of message!')

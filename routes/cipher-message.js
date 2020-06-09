@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const crypto = require('crypto');
-
+var checkInput=require('../scripts/utils')
+var createError = require('http-errors');
 //configuration to cipher or decipher messages
 const config=require('../config.json')
 const {algorithm,password }= config.cipherVariables.standard;
@@ -26,22 +27,25 @@ router.get('/', function(req, res, next) {
     res.render('cipherForm', { title: 'Cipher message',description:'Cipher a text message' });
 });
 
-
-router.post('/',function(req,res){
+router.post('/',function(req,res,next){
     //TO-DO validate input
     let message;
     let typeOfRes;
-    console.log(req.body)
-    if(req.body.hasOwnProperty('cipher')){
-       message=cipher(req.body.myMessage);
-       typeOfRes='text-cipher'
-      console.log(message);
-    } else {
-       message=decipher(req.body.myMessage);
-       typeOfRes='text-decipher'
-      console.log(message);
+    console.log(req.body.myMessage);
+    if(!checkInput(req.body.myMessage)){
+      next(createError(400,'Invalid input'))
+    }else{
+      if(req.body.hasOwnProperty('cipher')){
+          message=cipher(req.body.myMessage);
+          typeOfRes='text-cipher'
+        console.log(message);
+      } else {
+          message=decipher(req.body.myMessage);
+          typeOfRes='text-decipher'
+        console.log(message);
+      }
+      res.render('result',{ title: 'Cipher message',typeOfRes,description:'Here is your secret and a design made with it:',result:message})
     }
-    res.render('result',{ title: 'Cipher message',typeOfRes,description:'Here is your secret and a design made with it:',result:message})
 });
   
   module.exports = router;

@@ -1,20 +1,25 @@
 var express = require('express');
 var router=express.Router();
-
+var createError = require('http-errors');
+var checkInput=require('../scripts/utils')
 router.get('/',function(req,res,next){
     res.render('nicoForm',{ title: 'Nico message',description:'Resort your message with a key' })
 })
 
 router.post('/',function(req,res,next){
     let typeOfRes='nico',myNicoResult,{myKey:key,myMessage:message}=req.body;
-    if(req.body.hasOwnProperty('nico')){
-        myNicoResult=nico(key,message);
+    if(!checkInput(message)||!checkInput(key)){
+        next(createError(400,'Invalid input'))
     }else{
-        myNicoResult=deNico(key,message);
+        if(req.body.hasOwnProperty('nico')){
+            myNicoResult=nico(key,message);
+        }else{
+            myNicoResult=deNico(key,message);
+        }
+        console.log(req.body);
+        console.log(myNicoResult+'.');
+        res.render('result',{ title: 'Nico message',typeOfRes,description:'Here is your message:',result:`"${myNicoResult}".`})
     }
-    console.log(req.body);
-    console.log(myNicoResult+'.');
-    res.render('result',{ title: 'Nico message',typeOfRes,description:'Here is your message:',result:`"${myNicoResult}".`})
 })
 
 function nico(key, m)  {
