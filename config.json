@@ -2,7 +2,13 @@
     "cipherVariables":{
         "standard":{
             "algorithm":"aes-192-cbc",
-            "password":"Password used to generate key"
+            "password":"Password used to generate key",
+            "salt":"salt"
         }
+    },
+    "img":{
+        "uploadDir":"tmp/",
+        "publicDir":"images/",
+        "endStr":"-tophatend"
     }
 }

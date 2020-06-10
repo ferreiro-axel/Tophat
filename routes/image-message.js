@@ -2,7 +2,9 @@ var createError = require('http-errors');
 var express = require('express');
 var router = express.Router();
 var multer =require('multer');
-var upload=multer({dest:'tmp/'});
+const config=require('../config.json')
+const {uploadDir,publicDir,endStr}= config.img;
+var upload=multer({dest:uploadDir});
 var fs = require('fs');
 var jimp = require('jimp');
 
@@ -52,7 +54,7 @@ router.post('/',upload.single('image'),function(req,res,next){
   
   function writeImage2(imgName,rawMessage,res){
     let message=turnMsgToBin(rawMessage).split('');
-    jimp.read('tmp/'+imgName,(err,img)=>{
+    jimp.read(uploadDir+imgName,(err,img)=>{
       if(err) throw err;
       img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(x, y, idx) {
         if(message.length){
@@ -61,7 +63,7 @@ router.post('/',upload.single('image'),function(req,res,next){
             binaryBit=binaryBit.substr(0,binaryBit.length-1)+message.shift();
             this.bitmap.data[idx + 3]=parseInt(binaryBit,2);
             if(message.length==0){
-              this.write("public/images/"+imgName);
+              this.write("public/"+publicDir+imgName);
               res.render('result',{title: 'Image message',description:'Your message is now inside the image:',typeOfRes:'img-cipher',imageName:imgName});
             }
         }
@@ -70,7 +72,7 @@ router.post('/',upload.single('image'),function(req,res,next){
   }
   
   function turnMsgToBin(rawMessage){
-    let message=rawMessage+'-tophatend';
+    let message=rawMessage+endStr;
       message=message.split('');
       message=message.map(i=>{let bitChain =i.charCodeAt(0).toString(2);
         let ceros=7-bitChain.length;
@@ -83,11 +85,11 @@ router.post('/',upload.single('image'),function(req,res,next){
     var message=''
     let currentByte='';
     let messageFound=false;
-    jimp.read('tmp/'+imgName,(err,img)=>{
+    jimp.read(uploadDir+imgName,(err,img)=>{
       if(err) throw err;
       img.scan(0, 0, img.bitmap.width, img.bitmap.height, function(x, y, idx) {
-        if(message.includes('-tophatend')&&!messageFound){
-          let resMessage=message.replace('-tophatend','')
+        if(message.includes(endStr)&&!messageFound){
+          let resMessage=message.replace(endStr,'')
           res.render('result',{title: 'Image message',description:'This is the secret that was inside your image:',result:resMessage,typeOfRes:'img'});
           messageFound=true;
         }

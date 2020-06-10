@@ -5,8 +5,8 @@ var checkInput=require('../scripts/utils')
 var createError = require('http-errors');
 //configuration to cipher or decipher messages
 const config=require('../config.json')
-const {algorithm,password }= config.cipherVariables.standard;
-const key = crypto.scryptSync(password, 'salt', 24);
+const {algorithm,password,salt}= config.cipherVariables.standard;
+const key = crypto.scryptSync(password, salt, 24);
 const iv = Buffer.alloc(16, 0);
 
 function cipher(message){
