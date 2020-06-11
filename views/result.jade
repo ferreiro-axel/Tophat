@@ -5,13 +5,14 @@ block scripts
       script(src='/p5/result.js')
   else
 block content
+    .responseContainer
       p#Res #{result}
       if typeOfRes=='text-cipher'
         #designContainer
           #canv.canv
       else 
         if typeOfRes=='img-cipher'
-          a(download="logo.png" href="/images/#{imageName}") Download
+          a(download="img.png" href="/images/#{imageName}" class="download-btn") Download
       .signature
         p(id="magician-sign") Mr.Mage
       

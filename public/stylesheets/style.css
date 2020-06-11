@@ -132,11 +132,11 @@ background-color: var(--header);
     align-items: center;
 }
 
-#centralContainer input, label{
+#centralContainer input, label,.download-btn{
     font-size: 1.5em;
     display: block;
     padding: .5em;
-    margin: .3em;
+    margin: .3em 0;
     width: 100%;
     border-width: .1em;
     border-radius: .3em;
@@ -144,17 +144,20 @@ background-color: var(--header);
     background-color: white;
     color: gray;
     text-align: center;
-    font-family: inherit;
 }
 
-#centralContainer button{
+#centralContainer button,.download-btn{
     padding: .5em;
-    margin: .3em;
+    margin: .3em 0;
     border-radius: .3em;
     border-style: none;
     background-color: var(--header);
     width: 100%;
     color: inherit;
+}
+
+.download-btn{
+    text-decoration: none;
 }
 
 .signature{
