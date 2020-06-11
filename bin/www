@@ -7,6 +7,10 @@
 var app = require('../app');
 var debug = require('debug')('tophat:server');
 var http = require('http');
+var fs=require('fs');
+var path = require('path');
+const config=require('../config.json')
+const {uploadDir,publicDir}= config.img;
 
 /**
  * Get port from environment and store in Express.
@@ -87,4 +91,25 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+
+
+
+
+var minutes = 10, the_interval = minutes * 60 * 1000;
+setInterval(function() {
+  cleanDir(uploadDir);
+  cleanDir('public/'+publicDir);
+}, the_interval);
+
+function cleanDir(directory){
+  fs.readdir(directory, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      fs.unlink(path.join(directory, file), err => {
+        if (err) throw err;
+      });
+    }
+  });
 }
